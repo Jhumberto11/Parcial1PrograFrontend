@@ -1,0 +1,130 @@
+﻿@using TechStore.Models.Shared
+
+
+
+    <!-- Presentación de la tienda -->
+    <section class="card-primary">
+        <div class="container text-center">
+
+            <h1 class="font">
+                TechStore - Tienda de Tecnología
+            </h1>
+
+            <p class="lead mt-3">
+                Encuentra tecnología de calidad para estudiar,
+                trabajar, jugar y mantenerte conectado.
+            </p>
+
+            <p>
+                En TechStore ofrecemos computadoras, telefonos,
+                accesorios y diferentes productos tecnológicos
+                a precios competitivos
+            </p>
+
+
+            <a asp-controller="Productos" asp-action="Index" class="btn btn-primary">
+                Ver productos
+            </a>
+
+        </div>
+    </section>
+
+
+    <!-- Qué vendemos -->
+    <section class="container my-5">
+
+        <h2 class="text-center mb-4">
+            ¿Qué puedes encontrar en TechStore?
+        </h2>
+
+        <div class="row g-4">
+
+        @await Html.PartialAsync("_Cards", new Card() { 
+            Titulo = "Computadoras", 
+            Descripcion="Equipos para estudiantes, profesionales,oficinas y usuarios que buscan rendimiento y confiabilidad.",
+            ImageURL = "/img/laptop-img.jpg"
+        })
+
+            
+
+        @await Html.PartialAsync("_Cards", new Card(){
+                
+            Titulo = "Teléfonos",
+                
+            Descripcion = "Smartphones de diferentes marcas y modelos,con opciones para diferentes necesidades y presupuestos.",
+            ImageURL = "/img/celular-img.jpg"
+        })
+
+
+        @await Html.PartialAsync("_Cards", new Card(){
+                
+            Titulo = "Accesorios",
+                
+            Descripcion = "Audífonos, teclados, mouse, cargadores,     cables, memorias y otros accesorios tecnológicos" ,
+            
+            ImageURL = "/img/accesorios.jpg"
+            }),
+
+        
+
+            
+
+        </div>
+
+
+
+    </section>
+
+
+    <!-- Beneficios -->
+    <section class="bg-dark text-white py-5">
+
+        <div class="container">
+
+            <h2 class="text-center mb-4">
+                ¿Por qué comprar en TechStore?
+            </h2>
+
+            <div class="row text-center g-4">
+
+                <div class="col-md-4">
+
+                    <h4>Productos de calidad</h4>
+
+                    <p>
+                        Seleccionamos productos tecnológicos
+                        confiables y de marcas reconocidas.
+                    </p>
+
+                </div>
+
+
+                <div class="col-md-4">
+
+                    <h4>Precios competitivos</h4>
+
+                    <p>
+                        Buscamos ofrecer buenos precios para que
+                        nuestros clientes puedan encontrar tecnología
+                        de acuerdo con su presupuesto.
+                    </p>
+
+                </div>
+
+
+                <div class="col-md-4">
+
+                    <h4>Variedad de productos</h4>
+
+                    <p>
+                        Contamos con diferentes categorías y opciones
+                        para cubrir distintas necesidades tecnológicas.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>

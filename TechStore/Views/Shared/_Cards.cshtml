@@ -1,0 +1,29 @@
+﻿@using TechStore.Models.Shared
+@model Card
+
+
+<div class="col-md-4">
+
+    <div class="card h-100 card-zoom">
+
+        <img src="@Model.ImageURL"
+             class="card-img-top"
+             alt="@Model.Titulo">
+
+        <div class="card-body text-center">
+
+
+
+            <h3 class="card-title h5">
+                @Model.Titulo
+            </h3>
+
+            <p class="card-text">
+                @Model.Descripcion
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
