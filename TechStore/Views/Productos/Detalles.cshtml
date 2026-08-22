@@ -1,0 +1,56 @@
+@model TechStore.Models.Producto
+
+@{
+    ViewData["Title"] = Model.Nombre;
+}
+
+<section class="container seccion">
+
+    <a asp-controller="Productos" asp-action="Index" class="volver">
+        &larr; Volver a productos
+    </a>
+
+    <div class="row g-4 mt-1">
+
+        <div class="col-12 col-lg-6">
+            <img src="@Model.Imagen" alt="@Model.Nombre" class="detalle-imagen" />
+        </div>
+
+        <div class="col-12 col-lg-6">
+
+            @if (Model.Categoria != null)
+            {
+                <span class="producto-categoria">@Model.Categoria.Nombre</span>
+            }
+
+            <h1 class="detalle-nombre">@Model.Nombre</h1>
+
+            <p class="detalle-descripcion">@Model.Descripcion</p>
+
+            <p class="detalle-precio">$@Model.Precio.ToString("N2")</p>
+
+            <ul class="detalle-datos">
+                <li><strong>Codigo:</strong> @Model.Id</li>
+                <li><strong>Stock:</strong> @Model.Stock unidades</li>
+                <li>
+                    <strong>Estado:</strong>
+                    @if (Model.HayExistencias)
+                    {
+                        <span class="texto-disponible">@Model.Estado</span>
+                    }
+                    else
+                    {
+                        <span class="texto-agotado">@Model.Estado</span>
+                    }
+                </li>
+            </ul>
+
+            <a asp-controller="Home" asp-action="ContactUs" class="btn btn-principal">
+                Consultar por este producto
+            </a>
+
+        </div>
+
+    </div>
+
+</section>

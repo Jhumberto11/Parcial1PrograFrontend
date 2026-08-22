@@ -1,5 +1,110 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
 @{
+    ViewData["Title"] = "Contactenos";
 }
+
+<section class="encabezado-pagina">
+
+    <div class="container">
+
+        <h1>Contactenos</h1>
+
+        <p>
+            Escribenos si tienes dudas sobre un producto o necesitas
+            ayuda para elegir el equipo adecuado.
+        </p>
+
+    </div>
+
+</section>
+
+<section class="container seccion">
+
+    <div class="row g-4">
+
+        <!-- Formulario -->
+        <div class="col-12 col-lg-7">
+
+            <div class="tarjeta-info">
+
+                <h2>Envianos un mensaje</h2>
+
+                @if (ViewBag.Mensaje != null)
+                {
+                    <div class="alert alert-success">@ViewBag.Mensaje</div>
+                }
+
+                <form asp-controller="Home" asp-action="ContactUs" method="post">
+
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre completo</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre"
+                               placeholder="Escribe tu nombre" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="correo" class="form-label">Correo electronico</label>
+                        <input type="email" class="form-control" id="correo" name="correo"
+                               placeholder="ejemplo@@correo.com" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="asunto" class="form-label">Asunto</label>
+                        <input type="text" class="form-control" id="asunto" name="asunto"
+                               placeholder="Motivo de tu mensaje" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="mensaje" class="form-label">Mensaje</label>
+                        <textarea class="form-control" id="mensaje" name="mensaje" rows="5"
+                                  placeholder="Escribe tu mensaje" required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-principal">
+                        Enviar mensaje
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+        <!-- Informacion de la empresa -->
+        <div class="col-12 col-lg-5">
+
+            <div class="tarjeta-info h-100">
+
+                <h2>Informacion de contacto</h2>
+
+                <ul class="lista-contacto">
+
+                    <li>
+                        <strong>Direccion</strong>
+                        Avenida Tecnologica #123, San Salvador, El Salvador
+                    </li>
+
+                    <li>
+                        <strong>Telefono</strong>
+                        2222-3333 / 7777-8888
+                    </li>
+
+                    <li>
+                        <strong>Correo</strong>
+                        info@@techstore.com
+                    </li>
+
+                    <li>
+                        <strong>Horario</strong>
+                        Lunes a viernes de 8:00 a 18:00<br />
+                        Sabados de 8:00 a 12:00
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>

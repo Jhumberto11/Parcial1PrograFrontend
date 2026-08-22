@@ -1,0 +1,51 @@
+@model TechStore.Models.Producto
+
+<div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+
+    <div class="card producto-card h-100">
+
+        <div class="producto-imagen-contenedor">
+
+            <img src="@Model.Imagen" class="producto-imagen" alt="@Model.Nombre" />
+
+            @if (Model.HayExistencias)
+            {
+                <span class="badge-estado badge-disponible">@Model.Estado</span>
+            }
+            else
+            {
+                <span class="badge-estado badge-agotado">@Model.Estado</span>
+            }
+
+        </div>
+
+        <div class="card-body producto-contenido">
+
+            @if (Model.Categoria != null)
+            {
+                <span class="producto-categoria">@Model.Categoria.Nombre</span>
+            }
+
+            <h3 class="producto-nombre">@Model.Nombre</h3>
+
+            <p class="producto-descripcion">@Model.Descripcion</p>
+
+            <div class="producto-final">
+
+                <div class="producto-precio-fila">
+                    <span class="producto-precio">$@Model.Precio.ToString("N2")</span>
+                    <span class="producto-stock">Stock: @Model.Stock</span>
+                </div>
+
+                <a asp-controller="Productos" asp-action="Detalles" asp-route-id="@Model.Id"
+                   class="btn btn-producto w-100">
+                    Ver producto
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
