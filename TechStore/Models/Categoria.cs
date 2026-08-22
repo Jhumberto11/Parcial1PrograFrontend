@@ -1,11 +1,11 @@
-﻿namespace TechStore.Models
+namespace TechStore.Models
 {
-    public class Categoria : Base   
+    public class Categoria : Base
     {
-        public string  Nombre {  get; set; }
-    
-        public string? Descripcion {  get; set; }
+        public string Nombre { get; set; } = string.Empty;
 
-        public string? ImageUrl { get; set; }
+        public string Descripcion { get; set; } = string.Empty;
+
+        public string Imagen { get; set; } = string.Empty;
     }
 }

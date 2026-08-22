@@ -8,15 +8,31 @@ namespace TechStore.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            // Los productos destacados se envian desde el controlador hacia la vista
+            var destacados = Datos.Productos.Where(p => p.Destacado).ToList();
+
+            ViewBag.Categorias = Datos.Categorias.Take(3).ToList();
+
+            return View(destacados);
         }
 
         public IActionResult About()
         {
             return View();
         }
+
+        [HttpGet]
         public IActionResult ContactUs()
         {
+            return View();
+        }
+
+        // El formulario no hace un envio real, solo muestra un mensaje de confirmacion
+        [HttpPost]
+        public IActionResult ContactUs(string nombre, string correo, string asunto, string mensaje)
+        {
+            ViewBag.Mensaje = "Gracias " + nombre + ", recibimos tu mensaje. Te contactaremos pronto.";
+
             return View();
         }
 

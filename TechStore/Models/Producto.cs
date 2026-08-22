@@ -1,29 +1,33 @@
-﻿namespace TechStore.Models
+namespace TechStore.Models
 {
     public class Producto : Base
     {
-        public string Nombre { get; set; }
+        public string Nombre { get; set; } = string.Empty;
+
+        public string Descripcion { get; set; } = string.Empty;
+
         public decimal Precio { get; set; }
-        public string Descripcion { get; set; }
-        public int Cantidad { get; set; }
-        public bool Disponible
+
+        public int Stock { get; set; }
+
+        public string Imagen { get; set; } = string.Empty;
+
+        public int CategoriaId { get; set; }
+
+        public Categoria? Categoria { get; set; }
+
+        // Sirve para escoger cuales se muestran en la pagina de inicio
+        public bool Destacado { get; set; }
+
+        // El estado se calcula a partir del stock, no se guarda aparte
+        public string Estado
         {
-            get { return Cantidad > 0; }
+            get { return Stock > 0 ? "Disponible" : "Agotado"; }
         }
-        public string UrlImagen { get; set; }
 
-        public Categorias Categoria { get; set; }
-
-    }
-    public enum Categorias
-    {
-        AccesoriosCarros,
-        AccesoriosComputadoras,
-        AccesoriosPersonales,
-        Computadoras,
-        Telefonos,
-        AccesoriosTelefonos,
-        Mouses,
-        Teclados
+        public bool HayExistencias
+        {
+            get { return Stock > 0; }
+        }
     }
 }
