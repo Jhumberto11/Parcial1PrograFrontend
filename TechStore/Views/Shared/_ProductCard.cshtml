@@ -41,6 +41,15 @@
                    class="btn btn-producto w-100">
                     Ver producto
                 </a>
+                <!-- Botones de Editar y Eliminar -->
+                <div class="d-flex gap-2 mt-2">
+                    <a asp-controller="Productos" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning w-50">
+                        Editar
+                    </a>
+                    <a asp-controller="Productos" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger w-50">
+                        Eliminar
+                    </a>
+                </div>
 
             </div>
 

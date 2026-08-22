@@ -1,0 +1,45 @@
+﻿@model TechStore.Models.Producto
+
+@{
+    ViewData["Title"] = "Eliminar Producto";
+}
+
+<h2 class="mb-4 text-danger">Eliminar Producto</h2>
+
+<div class="alert alert-warning shadow-sm border-warning">
+    <h4><i class="bi bi-exclamation-triangle-fill"></i> ¿Estás completamente seguro de que deseas eliminar este producto?</h4>
+    <p>Esta acción no se puede deshacer.</p>
+</div>
+
+<div class="card shadow-sm mt-4">
+    <div class="card-header bg-light">
+        <strong>Detalles del Producto a Eliminar</strong>
+    </div>
+    <div class="card-body">
+        <dl class="row mb-0">
+            <dt class="col-sm-3">Nombre:</dt>
+            <dd class="col-sm-9">@Model.Nombre</dd>
+
+            <dt class="col-sm-3">Precio:</dt>
+            <dd class="col-sm-9">$@Model.Precio</dd>
+
+            <dt class="col-sm-3">Stock Actual:</dt>
+            <dd class="col-sm-9">
+                @Model.Stock unidades
+                <span class="badge @(Model.HayExistencias ? "bg-success" : "bg-danger")">
+                    @Model.Estado
+                </span>
+            </dd>
+
+            <dt class="col-sm-3">ID de Referencia:</dt>
+            <dd class="col-sm-9 text-muted">#@Model.Id</dd>
+        </dl>
+    </div>
+    <div class="card-footer bg-white">
+        <form asp-action="Delete" method="post" class="d-flex gap-2">
+            <input type="hidden" asp-for="Id" />
+            <button type="submit" class="btn btn-danger">Sí, Eliminar Producto</button>
+            <a asp-action="Index" class="btn btn-secondary">Cancelar y Volver</a>
+        </form>
+    </div>
+</div>
