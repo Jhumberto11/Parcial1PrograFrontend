@@ -14,10 +14,7 @@ namespace TechStore.Repositorios
 
         public async Task<Producto> AddProductAsync(Producto product)
         {
-            if (product == null)
-            {
-                throw new Exception(nameof(product));
-            }
+           
 
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
@@ -26,17 +23,8 @@ namespace TechStore.Repositorios
 
         public async Task<bool> DeleteProductAsync(int id)
         {
-            if (id <= 0)
-            {
-                throw new Exception("Id debe ser un valor positivo");
-            }
-
-            var result = await _context.Products.FindAsync(id);
-            if (result == null)
-            {
-                throw new Exception($"Producto con id {id} no encontrado");
-            }
-
+           
+            var result = await _context.Products.FindAsync(id);  
             _context.Products.Remove(result);
             await _context.SaveChangesAsync();
             return true;
@@ -60,10 +48,7 @@ namespace TechStore.Repositorios
 
         public async Task<Producto> UpdateProductAsync(Producto product)
         {
-            if (product == null)
-            {
-                throw new Exception(nameof(product));
-            }
+            
 
             var productToUpdate = await _context.Products.FindAsync(product.Id);
             if (productToUpdate == null)

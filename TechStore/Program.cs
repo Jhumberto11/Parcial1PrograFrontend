@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using TechStore.Data;
+using TechStore.Models.Interface;
+using TechStore.Repositorios;
+using TechStore.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +11,13 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<IProductoRepository, ProductRepository>();
+builder.Services.AddScoped<ICategoriesRepository, CategoryRepository>();
+
+
+builder.Services.AddScoped<ProductService>();
+builder.Services.AddScoped<CategoryService>();
 
 var app = builder.Build();
 

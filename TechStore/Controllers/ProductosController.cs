@@ -1,10 +1,18 @@
 using Microsoft.AspNetCore.Mvc;
 using TechStore.Models;
+using TechStore.Services;
 
 namespace TechStore.Controllers
 {
     public class ProductosController : Controller
     {
+        private readonly ProductService _productsService;
+
+        public ProductosController(ProductService productService)
+        {
+            _productsService = productService;  
+        }
+
         // Si viene un categoriaId se filtra la lista, si no se muestran todos
         public IActionResult Index(int? categoriaId)
         {
