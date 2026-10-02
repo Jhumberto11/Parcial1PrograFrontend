@@ -13,7 +13,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<IProductoRepository, ProductRepository>();
-builder.Services.AddScoped<ICategoriesRepository, CategoryRepository>();
+builder.Services.AddScoped<ICategoriesRepository, CategoryService>();
 
 
 builder.Services.AddScoped<ProductService>();

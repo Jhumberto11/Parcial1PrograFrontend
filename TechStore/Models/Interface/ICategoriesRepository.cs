@@ -1,13 +1,13 @@
-﻿namespace TechStore.Models.Interface
+﻿using TechStore.Models;
+
+namespace TechStore.Models.Interface
 {
     public interface ICategoriesRepository
     {
-
-        Task<IEnumerable<Categoria>> GetAllCategoriesAsync();
-        Task<Categoria> GetCategoryByIdAsync(int id);
-        Task<Categoria> AddCategoryAsync(Categoria category);
-        Task<Categoria> UpdateCategoryAsync(Categoria category);
-        Task<bool> DeleteCategoryAsync(int id);
-
+        IEnumerable<Categoria> GetAllCategories();
+        Categoria GetCategoryById(int id);
+        void AddCategory(Categoria categoria);
+        void UpdateCategory(Categoria categoria);
+        void DeleteCategory(int id);
     }
 }
