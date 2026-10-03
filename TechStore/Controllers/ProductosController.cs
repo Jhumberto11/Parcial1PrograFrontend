@@ -6,111 +6,111 @@ namespace TechStore.Controllers
 {
     public class ProductosController : Controller
     {
-        private readonly ProductService _productsService;
+        private readonly ProductService _productService;
+        private readonly CategoryService _categoryService;
 
-        public ProductosController(ProductService productService)
+        public ProductosController(ProductService productService, CategoryService categoryService)
         {
-            _productsService = productService;  
+            _productService = productService;
+            _categoryService = categoryService;
         }
 
-        // Si viene un categoriaId se filtra la lista, si no se muestran todos
-        public IActionResult Index(int? categoriaId)
+        public async Task<IActionResult> Index(int? categoriaId)
         {
-            var productos = Datos.Productos.ToList();
+            var productos = await _productService.GetAllProductsAsync();
 
             if (categoriaId != null)
             {
-                productos = productos.Where(p => p.CategoriaId == categoriaId).ToList();
-
-                var categoria = Datos.Categorias.FirstOrDefault(c => c.Id == categoriaId);
-                ViewBag.CategoriaActual = categoria != null ? categoria.Nombre : "Categoria";
+                productos = productos.Where(p => p.CategoriaId == categoriaId);
             }
 
             ViewBag.CategoriaId = categoriaId;
-            ViewBag.Categorias = Datos.Categorias;
+            ViewBag.Categorias = _categoryService.GetAllCategories().ToList();
 
-            return View(productos);
+            return View(productos.ToList());
         }
 
-        public IActionResult Detalles(int id)
+        public async Task<IActionResult> Detalles(int id)
         {
-            var producto = Datos.Productos.FirstOrDefault(p => p.Id == id);
-
-            if (producto == null)
-            {
-                return NotFound();
-            }
+            var producto = await BuscarProducto(id);
+            if (producto == null) return NotFound();
 
             return View(producto);
         }
-        // =============================
-        // SECCIÓN: EDITAR PRODUCTO
-        // =============================
 
-        public IActionResult Edit(int id)
+        public IActionResult Create()
         {
-            var producto = Datos.Productos.FirstOrDefault(p => p.Id == id);
-            if (producto == null)
-            {
-                return NotFound();
-            }
-
-           
-            ViewBag.Categorias = Datos.Categorias;
-            return View(producto);
+            ViewBag.Categorias = _categoryService.GetAllCategories().ToList();
+            return View(new Producto());
         }
-
 
         [HttpPost]
-        public IActionResult Edit(Producto productoModificado)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(Producto producto)
         {
-            var productoOriginal = Datos.Productos.FirstOrDefault(p => p.Id == productoModificado.Id);
-
-            if (productoOriginal != null)
+            if (!ModelState.IsValid)
             {
-                
-                productoOriginal.Nombre = productoModificado.Nombre;
-                productoOriginal.Descripcion = productoModificado.Descripcion;
-                productoOriginal.Precio = productoModificado.Precio;
-                productoOriginal.Stock = productoModificado.Stock;
-                productoOriginal.Imagen = productoModificado.Imagen;
-                productoOriginal.CategoriaId = productoModificado.CategoriaId;
-                productoOriginal.Destacado = productoModificado.Destacado;
-
-                return RedirectToAction("Index");
+                ViewBag.Categorias = _categoryService.GetAllCategories().ToList();
+                return View(producto);
             }
 
-         
-            ViewBag.Categorias = Datos.Categorias;
-            return View(productoModificado);
+            await _productService.AddProductAsync(producto);
+            return RedirectToAction(nameof(Index));
         }
 
-        // =============================
-        // SECCIÓN: ELIMINAR PRODUCTO
-        // =============================
-
-    
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            var producto = Datos.Productos.FirstOrDefault(p => p.Id == id);
-            if (producto == null)
+            var producto = await BuscarProducto(id);
+            if (producto == null) return NotFound();
+
+            ViewBag.Categorias = _categoryService.GetAllCategories().ToList();
+            return View(producto);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(Producto producto)
+        {
+            if (!ModelState.IsValid)
             {
-                return NotFound();
+                ViewBag.Categorias = _categoryService.GetAllCategories().ToList();
+                return View(producto);
             }
+
+            if (await BuscarProducto(producto.Id) == null) return NotFound();
+
+            await _productService.UpdateProductAsync(producto);
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var producto = await BuscarProducto(id);
+            if (producto == null) return NotFound();
+
             return View(producto);
         }
 
         [HttpPost, ActionName("Delete")]
-        public IActionResult DeleteConfirmed(int id)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var producto = Datos.Productos.FirstOrDefault(p => p.Id == id);
+            if (await BuscarProducto(id) == null) return NotFound();
 
-            if (producto != null)
-            {
-                Datos.Productos.Remove(producto);
-            }
-
-            return RedirectToAction("Index");
+            await _productService.DeleteProductAsync(id);
+            return RedirectToAction(nameof(Index));
         }
-    } 
+
+        private async Task<Producto?> BuscarProducto(int id)
+        {
+            try
+            {
+                return await _productService.GetProductByIdAsync(id);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+    }
 }

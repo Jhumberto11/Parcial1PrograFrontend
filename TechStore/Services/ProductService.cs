@@ -39,12 +39,7 @@ namespace TechStore.Services
 
         public async Task<IEnumerable<Producto>> GetAllProductsAsync()
         {
-            var list = await _productoRepository.GetAllProductsAsync();
-            if(list == null || !list.Any())
-            {
-                throw new Exception("No se encontraron productos");
-            }
-            return list;
+            return await _productoRepository.GetAllProductsAsync();
         }   
 
         public async Task<Producto> GetProductByIdAsync(int id)
