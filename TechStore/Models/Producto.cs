@@ -10,14 +10,14 @@ namespace TechStore.Models
 
         public int Stock { get; set; }
 
-        public string Imagen { get; set; } = string.Empty;
+        public string? Imagen { get; set; } = string.Empty;
 
         public int CategoriaId { get; set; }
 
         public Categoria? Categoria { get; set; }
 
         // Sirve para escoger cuales se muestran en la pagina de inicio
-        public bool Destacado { get; set; }
+        public bool Destacado { get; set; } = false;
 
         // El estado se calcula a partir del stock, no se guarda aparte
         public string Estado
