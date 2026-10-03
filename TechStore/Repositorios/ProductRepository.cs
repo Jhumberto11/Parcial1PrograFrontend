@@ -33,12 +33,12 @@ namespace TechStore.Repositorios
 
         public async Task<IEnumerable<Producto>> GetAllProductsAsync()
         {
-            return await _context.Products.ToListAsync();
+            return await _context.Products.Include(p => p.Categoria).ToListAsync();
         }
 
         public async Task<Producto> GetProductByIdAsync(int id)
         {
-            var result = await _context.Products.FindAsync(id);
+            var result = await _context.Products.Include(p => p.Categoria).FirstOrDefaultAsync(p => p.Id == id);
             if (result == null)
             {
                 throw new Exception($"Producto con id {id} no encontrado");
@@ -60,6 +60,9 @@ namespace TechStore.Repositorios
             productToUpdate.Descripcion = product.Descripcion;
             productToUpdate.Precio = product.Precio;
             productToUpdate.Stock = product.Stock;
+            productToUpdate.Imagen = product.Imagen;
+            productToUpdate.CategoriaId = product.CategoriaId;
+            productToUpdate.Destacado = product.Destacado;
 
             _context.Update(productToUpdate);
             await _context.SaveChangesAsync();

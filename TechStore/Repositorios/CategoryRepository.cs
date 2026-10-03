@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TechStore.Repositorios
 {
-    public class CategoryRepository : ICategoriesRepository
+    public class CategoryRepository
     {
         private readonly AppDbContext _context;
         public CategoryRepository(AppDbContext context)
