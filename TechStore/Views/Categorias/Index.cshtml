@@ -21,6 +21,14 @@
 
 <section class="container seccion">
 
+    <div class="d-flex justify-content-end mb-3">
+        <a asp-controller="Categorias" asp-action="Create" class="btn btn-success">Agregar categoría</a>
+    </div>
+
+    <p class="resultado-conteo">
+        @Model.Count() categoría(s) encontrada(s)
+    </p>
+
     <div class="row g-4">
 
         @foreach (var categoria in Model)
@@ -29,5 +37,12 @@
         }
 
     </div>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-secondary text-center">
+            No hay categorias registradas.
+        </div>
+    }
 
 </section>

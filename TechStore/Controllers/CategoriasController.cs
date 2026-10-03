@@ -32,6 +32,7 @@ namespace TechStore.Controllers
             if (ModelState.IsValid)
             {
                 _categoryService.AddCategory(categoria);
+                TempData["SuccessMessage"] = "Categoría guardada correctamente";
                 return RedirectToAction(nameof(Index));
             }
             return View(categoria);
@@ -54,6 +55,7 @@ namespace TechStore.Controllers
             if (ModelState.IsValid)
             {
                 _categoryService.UpdateCategory(categoria);
+                TempData["SuccessMessage"] = "Categoría actualizada correctamente";
                 return RedirectToAction(nameof(Index));
             }
             return View(categoria);
@@ -74,6 +76,7 @@ namespace TechStore.Controllers
         public IActionResult DeleteConfirmed(int id)
         {
             _categoryService.DeleteCategory(id);
+            TempData["SuccessMessage"] = "Categoría eliminada correctamente";
             return RedirectToAction(nameof(Index));
         }
     }

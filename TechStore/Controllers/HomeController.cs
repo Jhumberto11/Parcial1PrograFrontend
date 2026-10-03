@@ -1,17 +1,33 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using TechStore.Models;
+using TechStore.Services;
 
 namespace TechStore.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private readonly ProductService _productService;
+        private readonly CategoryService _categoryService;
+        
+        public HomeController(ProductService productService, CategoryService categoryService)
+        {
+            _productService = productService;
+            _categoryService = categoryService;
+        }
+       
+        public IActionResult PaginaNoEncontrada()
+        {
+             return View();
+         }
+        
+        public async Task<IActionResult> Index()
         {
             // Los productos destacados se envian desde el controlador hacia la vista
-            var destacados = Datos.Productos.Where(p => p.Destacado).ToList();
-
-            ViewBag.Categorias = Datos.Categorias.Take(3).ToList();
+             var productos = await _productService.GetAllProductsAsync();
+            var destacados = productos.Where(p => p.Destacado).ToList();
+            
+            ViewBag.Categorias = _categoryService.GetAllCategories().Take(3).ToList();
 
             return View(destacados);
         }

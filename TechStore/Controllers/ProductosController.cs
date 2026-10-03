@@ -55,6 +55,7 @@ namespace TechStore.Controllers
             }
 
             await _productService.AddProductAsync(producto);
+            TempData["SuccessMessage"] = "Producto guardado correctamente";
             return RedirectToAction(nameof(Index));
         }
 
@@ -80,6 +81,7 @@ namespace TechStore.Controllers
             if (await BuscarProducto(producto.Id) == null) return NotFound();
 
             await _productService.UpdateProductAsync(producto);
+            TempData["SuccessMessage"] = "Producto actualizado correctamente";
             return RedirectToAction(nameof(Index));
         }
 
@@ -98,6 +100,7 @@ namespace TechStore.Controllers
             if (await BuscarProducto(id) == null) return NotFound();
 
             await _productService.DeleteProductAsync(id);
+            TempData["SuccessMessage"] = "Producto eliminado correctamente";
             return RedirectToAction(nameof(Index));
         }
 

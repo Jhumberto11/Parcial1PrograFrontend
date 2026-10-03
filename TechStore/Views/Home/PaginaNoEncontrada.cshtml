@@ -1,0 +1,20 @@
+@{
+    ViewData["Title"] = "Página no encontrada";
+}
+
+<section class="container seccion text-center">
+
+    <h1 class="error-codigo">404</h1>
+
+    <h2 class="seccion-titulo">Página no encontrada</h2>
+
+    <p class="seccion-subtitulo">
+        La página que buscas no existe o fue eliminada.
+    </p>
+
+    <div class="d-flex justify-content-center gap-2 flex-wrap">
+        <a asp-controller="Home" asp-action="Index" class="btn btn-principal">Volver al inicio</a>
+        <a asp-controller="Productos" asp-action="Index" class="btn btn-producto">Ver productos</a>
+    </div>
+
+</section>
