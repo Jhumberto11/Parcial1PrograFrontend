@@ -13,8 +13,8 @@ namespace TechStore.Models
         [StringLength(300, ErrorMessage = "La descripcion no puede pasar de 300 caracteres")]
         public string Descripcion { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "La ruta de la imagen es obligatoria")]
+      
         [StringLength(300, ErrorMessage = "La ruta de la imagen es muy larga")]
-        public string Imagen { get; set; } = string.Empty;
+        public string? Imagen { get; set; } = string.Empty;
     }
 }
