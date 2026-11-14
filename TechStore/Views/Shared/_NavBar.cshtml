@@ -5,7 +5,6 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark navbar-techstore">
     <div class="container">
-
         <a class="navbar-brand" asp-controller="Home" asp-action="Index">
             Tech<span>Store</span>
         </a>
@@ -46,8 +45,13 @@
                     <a class="nav-link @(accion == "About" ? "active" : "")"
                        asp-controller="Home" asp-action="About">Acerca de nosotros</a>
                 </li>
-                @if (User.Identity?.IsAuthenticated == true)
-                {
+                @if (User.IsInRole("Administrador") || User.IsInRole("Vendedor")){
+                    <li class="nav-item">
+                        <a class="nav-link @(controlador == "Reportes" ? "active" : "")"
+                           asp-controller="Reportes" asp-action="Index">Reportes</a>
+                    </li>
+                }
+                @if (User.Identity?.IsAuthenticated == true){
                     <li class="nav-item d-flex align-items-center">
                         <span class="nav-link">
                             Hola, @User.Identity.Name
@@ -62,29 +66,16 @@
                         </form>
                     </li>
                 }
-                else
-                {
+                else{
                     <li class="nav-item">
-                        <a class="nav-link @(controlador == "Account" && accion == "Login" ? "active" : "")"
-                           asp-controller="Account"
-                           asp-action="Login">
-                            Iniciar sesión
-                        </a>
+                        <a class="nav-link @(controlador == "Account" && accion == "Login" ? "active" : "")" asp-controller="Account" asp-action="Login">Iniciar sesión</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link @(controlador == "Account" && accion == "Register" ? "active" : "")"
-                           asp-controller="Account"
-                           asp-action="Register">
-                            Registrarse
-                        </a>
+                        <a class="nav-link @(controlador == "Account" && accion == "Register" ? "active" : "")" asp-controller="Account" asp-action="Register">Registrarse</a>
                     </li>
                 }
-
-
             </ul>
-
         </div>
-
     </div>
 </nav>
