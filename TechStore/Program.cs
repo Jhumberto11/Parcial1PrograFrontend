@@ -27,6 +27,11 @@ builder.Services.ConfigureApplicationCookie(options =>
 });
 
 
+builder.Services.Configure<SecurityStampValidatorOptions>(options =>
+{
+    options.ValidationInterval = TimeSpan.FromMinutes(1);
+});
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -132,7 +137,9 @@ using (var scope = app.Services.CreateScope())
     app.UseHttpsRedirection();
     app.UseRouting();
 
+    app.UseAuthentication();
     app.UseAuthorization();
+
 
     app.MapStaticAssets();
 
