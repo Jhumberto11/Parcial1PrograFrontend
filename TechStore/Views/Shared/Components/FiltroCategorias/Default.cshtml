@@ -1,0 +1,18 @@
+@model TechStore.Models.ViewModels.FiltroCategoriasViewModel
+
+<div class="filtros">
+
+    <a asp-controller="Productos" asp-action="Index"
+       class="filtro @(Model.CategoriaSeleccionada == null ? "filtro-activo" : "")">
+        Todos
+    </a>
+
+    @foreach (var categoria in Model.Categorias)
+    {
+        <a asp-controller="Productos" asp-action="Index" asp-route-categoriaId="@categoria.Id"
+           class="filtro @(Model.CategoriaSeleccionada == categoria.Id ? "filtro-activo" : "")">
+            @categoria.Nombre
+        </a>
+    }
+
+</div>

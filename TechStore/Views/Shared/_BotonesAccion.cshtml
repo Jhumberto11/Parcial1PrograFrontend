@@ -1,0 +1,37 @@
+@model TechStore.Models.ViewModels.BotonesAccionViewModel
+
+@*
+    Partial reutilizable para los botones Editar / Eliminar.
+    - Administrador: Editar y Eliminar
+    - Vendedor: solo Editar
+    - Cliente o usuario no autenticado: no se muestra nada
+*@
+
+@{
+    var puedeEditar = User.IsInRole("Administrador") || User.IsInRole("Vendedor");
+    var puedeEliminar = User.IsInRole("Administrador");
+    var ancho = puedeEditar && puedeEliminar ? "w-50" : "w-100";
+}
+
+@if (puedeEditar || puedeEliminar)
+{
+    <div class="d-flex gap-2 mt-2">
+
+        @if (puedeEditar)
+        {
+            <a asp-controller="@Model.Controlador" asp-action="Edit" asp-route-id="@Model.Id"
+               class="btn btn-warning @ancho">
+                Editar
+            </a>
+        }
+
+        @if (puedeEliminar)
+        {
+            <a asp-controller="@Model.Controlador" asp-action="Delete" asp-route-id="@Model.Id"
+               class="btn btn-danger @ancho">
+                Eliminar
+            </a>
+        }
+
+    </div>
+}

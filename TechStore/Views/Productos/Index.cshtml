@@ -2,7 +2,6 @@
 
 @{
     ViewData["Title"] = "Productos";
-    var categorias = ViewBag.Categorias as List<TechStore.Models.Categoria>;
     int? categoriaId = ViewBag.CategoriaId;
 }
 
@@ -23,30 +22,15 @@
 
 <section class="container seccion">
 
-    <div class="d-flex justify-content-end mb-3">
-        <a asp-controller="Productos" asp-action="Create" class="btn btn-success">Agregar producto</a>
-    </div>
+    @if (User.IsInRole("Administrador") || User.IsInRole("Vendedor"))
+    {
+        <div class="d-flex justify-content-end mb-3">
+            <a asp-controller="Productos" asp-action="Create" class="btn btn-success">Agregar producto</a>
+        </div>
+    }
 
-    <!-- Filtro por categoria -->
-    <div class="filtros">
-
-        <a asp-controller="Productos" asp-action="Index"
-           class="filtro @(categoriaId == null ? "filtro-activo" : "")">
-            Todos
-        </a>
-
-        @if (categorias != null)
-        {
-            foreach (var categoria in categorias)
-            {
-                <a asp-controller="Productos" asp-action="Index" asp-route-categoriaId="@categoria.Id"
-                   class="filtro @(categoriaId == categoria.Id ? "filtro-activo" : "")">
-                    @categoria.Nombre
-                </a>
-            }
-        }
-
-    </div>
+    <!-- Filtro por categoria (View Component) -->
+    @await Component.InvokeAsync("FiltroCategorias", new { categoriaSeleccionada = categoriaId })
 
     <p class="resultado-conteo">
         @Model.Count() producto(s) encontrado(s)
