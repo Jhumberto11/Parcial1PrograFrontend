@@ -42,7 +42,6 @@ namespace TechStore.Controllers
                 }
 
                 ViewBag.CategoriaId = categoriaId;
-                ViewBag.Categorias = _categoryService.GetAllCategories().ToList();
 
                 var listaProductos = productos.ToList();
 

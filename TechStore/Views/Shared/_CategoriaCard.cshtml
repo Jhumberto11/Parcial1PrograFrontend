@@ -27,15 +27,9 @@
 
         @if (controlador == "Categorias")
         {
-            <!-- Botones de Editar y Eliminar -->
-            <div class="d-flex gap-2 mt-2">
-                <a asp-controller="Categorias" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning w-50">
-                    Editar
-                </a>
-                <a asp-controller="Categorias" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger w-50">
-                    Eliminar
-                </a>
-            </div>
+            <!-- Botones de Editar y Eliminar (solo roles autorizados) -->
+            <partial name="_BotonesAccion"
+                     model='new TechStore.Models.ViewModels.BotonesAccionViewModel { Controlador = "Categorias", Id = Model.Id }' />
         }
 
     </div>

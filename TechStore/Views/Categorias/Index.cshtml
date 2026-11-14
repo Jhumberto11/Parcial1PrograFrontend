@@ -21,9 +21,12 @@
 
 <section class="container seccion">
 
-    <div class="d-flex justify-content-end mb-3">
-        <a asp-controller="Categorias" asp-action="Create" class="btn btn-success">Agregar categoría</a>
-    </div>
+    @if (User.IsInRole("Administrador") || User.IsInRole("Vendedor"))
+    {
+        <div class="d-flex justify-content-end mb-3">
+            <a asp-controller="Categorias" asp-action="Create" class="btn btn-success">Agregar categoría</a>
+        </div>
+    }
 
     <p class="resultado-conteo">
         @Model.Count() categoría(s) encontrada(s)
