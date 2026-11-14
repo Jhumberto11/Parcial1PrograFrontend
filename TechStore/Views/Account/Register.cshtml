@@ -1,0 +1,100 @@
+﻿@model TechStore.Models.Identiry.RegisterModel
+
+@{
+    ViewData["Title"] = "Crear cuenta";
+}
+
+<div class="cuenta-seccion">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-10 col-md-8 col-lg-6">
+
+                <div class="cuenta-card">
+                    <div class="cuenta-encabezado">
+                        <div class="cuenta-icono">
+                            <span>TS</span>
+                        </div>
+
+                        <span class="cuenta-etiqueta">Únete a nosotros</span>
+                        <h1>Crear una cuenta</h1>
+                        <p>Regístrate para disfrutar de los productos de TechStore.</p>
+                    </div>
+
+                    <div class="cuenta-cuerpo">
+                        <form asp-controller="Account" asp-action="Register" method="post">
+
+                            <div asp-validation-summary="ModelOnly"
+                                 class="alert alert-danger cuenta-resumen"
+                                 role="alert"></div>
+
+                            <div class="mb-3">
+                                <label asp-for="Username" class="form-label fw-bold"></label>
+                                <input asp-for="Username"
+                                       class="form-control cuenta-input"
+                                       placeholder="Elige un nombre de usuario"
+                                       autocomplete="username" />
+                                <span asp-validation-for="Username" class="text-danger"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="Email" class="form-label fw-bold"></label>
+                                <input asp-for="Email"
+                                       class="form-control cuenta-input"
+                                       placeholder="ejemplo@correo.com"
+                                       autocomplete="email" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="Password" class="form-label fw-bold"></label>
+                                <input asp-for="Password"
+                                       class="form-control cuenta-input"
+                                       placeholder="Crea una contraseña"
+                                       autocomplete="new-password" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+
+                            <div class="mb-4">
+                                <label asp-for="ConfirmPassword" class="form-label fw-bold"></label>
+                                <input asp-for="ConfirmPassword"
+                                       class="form-control cuenta-input"
+                                       placeholder="Escribe nuevamente tu contraseña"
+                                       autocomplete="new-password" />
+                                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                            </div>
+
+                            <button type="submit" class="btn btn-principal w-100 cuenta-boton">
+                                Crear cuenta
+                            </button>
+                        </form>
+
+                        <div class="cuenta-separador">
+                            <span>¿Ya tienes una cuenta?</span>
+                        </div>
+
+                        <a asp-controller="Account"
+                           asp-action="Login"
+                           class="btn btn-outline-primary w-100 cuenta-boton-secundario">
+                            Iniciar sesión
+                        </a>
+
+                        <div class="text-center mt-4">
+                            <a asp-controller="Home" asp-action="Index" class="cuenta-enlace">
+                                Volver al inicio
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="cuenta-pie">
+                    © @DateTime.Now.Year TechStore. Todos los derechos reservados.
+                </p>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

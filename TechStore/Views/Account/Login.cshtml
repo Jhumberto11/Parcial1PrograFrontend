@@ -1,0 +1,92 @@
+﻿@model TechStore.Models.Identiry.LoginModel
+
+@{
+    ViewData["Title"] = "Iniciar sesión";
+}
+
+<div class="cuenta-seccion">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-10 col-md-8 col-lg-5">
+
+                <div class="cuenta-card">
+                    <div class="cuenta-encabezado">
+                        <div class="cuenta-icono">
+                            <span>TS</span>
+                        </div>
+
+                        <span class="cuenta-etiqueta">Bienvenido de nuevo</span>
+                        <h1>Iniciar sesión</h1>
+                        <p>Ingresa tus datos para acceder a TechStore.</p>
+                    </div>
+
+                    <div class="cuenta-cuerpo">
+                        <form asp-controller="Account" asp-action="Login" method="post">
+
+                            <input asp-for="ReturnUrl" type="hidden" />
+
+                            <div asp-validation-summary="ModelOnly"
+                                 class="alert alert-danger cuenta-resumen"
+                                 role="alert"></div>
+
+                            <div class="mb-3">
+                                <label asp-for="UserNameOrEmail" class="form-label fw-bold"></label>
+                                <input asp-for="UserNameOrEmail"
+                                       class="form-control cuenta-input"
+                                       placeholder="Usuario o correo electrónico"
+                                       autocomplete="username"
+                                       autofocus />
+                                <span asp-validation-for="UserNameOrEmail" class="text-danger"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="Password" class="form-label fw-bold"></label>
+                                <input asp-for="Password"
+                                       class="form-control cuenta-input"
+                                       placeholder="Ingresa tu contraseña"
+                                       autocomplete="current-password" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-check mb-4">
+                                <input asp-for="RememberMe" class="form-check-input" />
+                                <label asp-for="RememberMe" class="form-check-label">
+                                    Recordarme
+                                </label>
+                            </div>
+
+                            <button type="submit" class="btn btn-principal w-100 cuenta-boton">
+                                Iniciar sesión
+                            </button>
+                        </form>
+
+                        <div class="cuenta-separador">
+                            <span>¿Todavía no tienes una cuenta?</span>
+                        </div>
+
+                        <a asp-controller="Account"
+                           asp-action="Register"
+                           class="btn btn-outline-primary w-100 cuenta-boton-secundario">
+                            Crear una cuenta
+                        </a>
+
+                        <div class="text-center mt-4">
+                            <a asp-controller="Home" asp-action="Index" class="cuenta-enlace">
+                                Volver al inicio
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="cuenta-pie">
+                    © @DateTime.Now.Year TechStore. Todos los derechos reservados.
+                </p>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

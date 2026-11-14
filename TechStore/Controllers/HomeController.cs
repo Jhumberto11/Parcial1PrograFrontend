@@ -1,6 +1,9 @@
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using TechStore.Models;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.Extensions.Logging;
 using TechStore.Services;
 
 namespace TechStore.Controllers
@@ -9,18 +12,44 @@ namespace TechStore.Controllers
     {
         private readonly ProductService _productService;
         private readonly CategoryService _categoryService;
-        
-        public HomeController(ProductService productService, CategoryService categoryService)
+        private readonly ILogger<HomeController> _logger;
+
+        public HomeController(ProductService productService, CategoryService categoryService, ILogger<HomeController> logger)
         {
             _productService = productService;
             _categoryService = categoryService;
+            _logger = logger;
+
+
         }
-       
+
         public IActionResult PaginaNoEncontrada()
         {
              return View();
-         }
-        
+        }
+        [ResponseCache(
+        Duration = 0,
+        Location = ResponseCacheLocation.None,
+        NoStore = true)]
+        public IActionResult Error()
+        {
+            var exceptionFeature =
+                HttpContext.Features.Get<IExceptionHandlerPathFeature>();
+
+            if (exceptionFeature != null)
+            {
+                _logger.LogError(
+                    exceptionFeature.Error,
+                    "Se produjo un error no controlado en la ruta {Path}",
+                    exceptionFeature.Path);
+            }
+
+            return View(new ErrorViewModel
+            {
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+            });
+        }
+
         public async Task<IActionResult> Index()
         {
             // Los productos destacados se envian desde el controlador hacia la vista
@@ -52,10 +81,6 @@ namespace TechStore.Controllers
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+        
     }
 }

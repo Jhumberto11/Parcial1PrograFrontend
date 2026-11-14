@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TechStore.Data;
 using TechStore.Models.Interface;
@@ -5,6 +6,27 @@ using TechStore.Repositorios;
 using TechStore.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(
+    options =>
+    {
+        options.Lockout.MaxFailedAccessAttempts = 5;
+        options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15);
+        options.Lockout.AllowedForNewUsers = true;
+    })
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders();
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Account/Login";
+    options.LogoutPath = "/Account/Logout";
+    options.AccessDeniedPath = "/Account/AccessDenied";
+});
+
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -21,27 +43,104 @@ builder.Services.AddScoped<CategoryService>();
 
 var app = builder.Build();
 
-
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+using (var scope = app.Services.CreateScope())
 {
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+    var roleManager = scope.ServiceProvider
+        .GetRequiredService<RoleManager<IdentityRole>>();
+
+    var userManager = scope.ServiceProvider
+        .GetRequiredService<UserManager<IdentityUser>>();
+
+    string[] roles = { "Administrador", "Cliente", "Vendedor" };
+
+    foreach (var rol in roles)
+    {
+        if (!await roleManager.RoleExistsAsync(rol))
+        {
+            var resultado = await roleManager.CreateAsync(
+                new IdentityRole(rol));
+
+            if (!resultado.Succeeded)
+            {
+                throw new Exception(
+                    "No se pudo crear el rol: " + rol);
+            }
+        }
+    }
+
+    var administradorId = app.Configuration["AdministradorId"];
+
+    if (!string.IsNullOrWhiteSpace(administradorId))
+    {
+        var administrador = await userManager
+            .FindByIdAsync(administradorId);
+
+        if (administrador == null)
+        {
+            throw new Exception(
+                "No se encontró el usuario administrador.");
+        }
+
+        if (!await userManager.IsInRoleAsync(
+            administrador, "Administrador"))
+        {
+            var resultado = await userManager.AddToRoleAsync(
+                administrador, "Administrador");
+
+            if (!resultado.Succeeded)
+            {
+                throw new Exception(
+                    "No se pudo asignar el administrador.");
+            }
+        }
+    }
+
+    var usuarios = await userManager.Users.ToListAsync();
+
+    foreach (var usuario in usuarios)
+    {
+        var rolesUsuario = await userManager
+            .GetRolesAsync(usuario);
+
+        if (usuario.Email.Contains("@techstore.com"))
+        {
+            var resultado = await userManager.AddToRoleAsync(usuario, "Vendedor");
+        }
+        if (rolesUsuario.Count == 0)
+        {
+            var resultado = await userManager.AddToRoleAsync(
+                usuario, "Cliente");
+
+            if (!resultado.Succeeded)
+            {
+                throw new Exception(
+                    "No se pudo asignar el rol Lector.");
+            }
+        }
+    }
+
+
+    // Configure the HTTP request pipeline.
+    if (!app.Environment.IsDevelopment())
+    {
+        app.UseExceptionHandler("/Home/Error");
+        // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+        app.UseHsts();
+    }
+    app.UseStatusCodePagesWithReExecute("/Home/PaginaNoEncontrada");
+
+    app.UseHttpsRedirection();
+    app.UseRouting();
+
+    app.UseAuthorization();
+
+    app.MapStaticAssets();
+
+    app.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}")
+        .WithStaticAssets();
+
+
+    app.Run();
 }
-app.UseStatusCodePagesWithReExecute("/Home/PaginaNoEncontrada");
-
-app.UseHttpsRedirection();
-app.UseRouting();
-
-app.UseAuthorization();
-
-app.MapStaticAssets();
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
-
-
-app.Run();

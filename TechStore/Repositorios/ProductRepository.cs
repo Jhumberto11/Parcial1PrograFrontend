@@ -23,10 +23,19 @@ namespace TechStore.Repositorios
 
         public async Task<bool> DeleteProductAsync(int id)
         {
-           
-            var result = await _context.Products.FindAsync(id);  
+
+            var result = await _context.Products.FindAsync(id);
+
+            if (result == null)
+            {
+                throw new KeyNotFoundException(
+                    $"Producto con id {id} no encontrado");
+            }
+
             _context.Products.Remove(result);
+
             await _context.SaveChangesAsync();
+
             return true;
 
         }
@@ -41,7 +50,7 @@ namespace TechStore.Repositorios
             var result = await _context.Products.Include(p => p.Categoria).FirstOrDefaultAsync(p => p.Id == id);
             if (result == null)
             {
-                throw new Exception($"Producto con id {id} no encontrado");
+                throw new KeyNotFoundException($"Producto con id {id} no encontrado");
             }
             return result;
         }

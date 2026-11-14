@@ -20,6 +20,8 @@
 
             <ul class="navbar-nav ms-auto">
 
+                
+
                 <li class="nav-item">
                     <a class="nav-link @(controlador == "Home" && accion == "Index" ? "active" : "")"
                        asp-controller="Home" asp-action="Index">Inicio</a>
@@ -44,6 +46,41 @@
                     <a class="nav-link @(accion == "About" ? "active" : "")"
                        asp-controller="Home" asp-action="About">Acerca de nosotros</a>
                 </li>
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <li class="nav-item d-flex align-items-center">
+                        <span class="nav-link">
+                            Hola, @User.Identity.Name
+                        </span>
+                    </li>
+
+                    <li class="nav-item">
+                        <form asp-controller="Account" asp-action="Logout" method="post">
+                            <button type="submit" class="nav-link btn btn-link">
+                                Cerrar sesión
+                            </button>
+                        </form>
+                    </li>
+                }
+                else
+                {
+                    <li class="nav-item">
+                        <a class="nav-link @(controlador == "Account" && accion == "Login" ? "active" : "")"
+                           asp-controller="Account"
+                           asp-action="Login">
+                            Iniciar sesión
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link @(controlador == "Account" && accion == "Register" ? "active" : "")"
+                           asp-controller="Account"
+                           asp-action="Register">
+                            Registrarse
+                        </a>
+                    </li>
+                }
+
 
             </ul>
 

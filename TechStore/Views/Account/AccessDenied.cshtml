@@ -1,0 +1,51 @@
+﻿@{
+    ViewData["Title"] = "Acceso denegado";
+}
+
+<div class="cuenta-seccion">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8 col-lg-6">
+
+                <div class="cuenta-card text-center">
+                    <div class="cuenta-encabezado cuenta-encabezado-denegado">
+                        <div class="cuenta-icono cuenta-icono-denegado">
+                            <span>!</span>
+                        </div>
+
+                        <span class="cuenta-etiqueta">Acceso restringido</span>
+                        <h1>Acceso denegado</h1>
+                        <p>No tienes los permisos necesarios para acceder a esta sección.</p>
+                    </div>
+
+                    <div class="cuenta-cuerpo">
+                        <p class="cuenta-mensaje-denegado">
+                            Tu cuenta puede estar autenticada, pero el rol asignado no permite
+                            realizar esta operación. Si consideras que deberías tener acceso,
+                            comunícate con el administrador de TechStore.
+                        </p>
+
+                        <div class="d-grid gap-2">
+                            <a asp-controller="Home"
+                               asp-action="Index"
+                               class="btn btn-principal cuenta-boton">
+                                Volver al inicio
+                            </a>
+
+                            <a asp-controller="Productos"
+                               asp-action="Index"
+                               class="btn btn-outline-primary cuenta-boton-secundario">
+                                Ver productos
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="cuenta-pie">
+                    © @DateTime.Now.Year TechStore. Todos los derechos reservados.
+                </p>
+
+            </div>
+        </div>
+    </div>
+</div>
