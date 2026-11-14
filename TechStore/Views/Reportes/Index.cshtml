@@ -1,0 +1,24 @@
+@model int
+@{
+    ViewData["Title"] = "Reportes";
+}
+<section class="encabezado-pagina">
+    <div class="container">
+        <h1>Reportes</h1>
+        <p>Genera el reporte de productos en PDF o expórtalo a Excel.</p>
+    </div>
+</section>
+
+<section class="container seccion">
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h5 class="card-title">Reporte de productos</h5>
+            <p class="card-text text-muted">@Model productos registrados</p>
+            <div class="d-flex gap-2 flex-wrap">
+                <a asp-action="ProductosPdf" target="_blank" rel="noopener" class="btn btn-secondary">Abrir reporte</a>
+                <a asp-action="DescargarProductosPdf" class="btn btn-danger">Generar reporte PDF</a>
+                <a asp-action="ExportarProductosExcel" class="btn btn-success">Exportar a Excel</a>
+            </div>
+        </div>
+    </div>
+</section>

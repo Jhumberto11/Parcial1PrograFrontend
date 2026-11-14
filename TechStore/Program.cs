@@ -5,6 +5,8 @@ using TechStore.Models.Interface;
 using TechStore.Repositorios;
 using TechStore.Services;
 
+QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
+
 var builder = WebApplication.CreateBuilder(args);
 
 
