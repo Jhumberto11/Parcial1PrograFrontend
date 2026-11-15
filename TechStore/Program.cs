@@ -83,10 +83,16 @@ using (var scope = app.Services.CreateScope())
             .FindByIdAsync(administradorId);
 
         if (administrador == null)
-        {
-            throw new Exception(
-                "No se encontró el usuario administrador.");
-        }
+            if (administrador == null)
+            {
+                administrador = new IdentityUser
+                {
+                    Id = administradorId,
+                    UserName = "admin@techstore.com",
+                    Email = "admin@techstore.com"
+                };
+                await userManager.CreateAsync(administrador, "TechStore123!");
+            }
 
         if (!await userManager.IsInRoleAsync(
             administrador, "Administrador"))
